@@ -21,14 +21,104 @@
     <!-- your app's js -->
     <script src="js/app.js"></script>
   </head>
-  <body ng-app="calorific">
+    
+    <!--BODY -->
+  <body ng-app="calorific" ng-controller="CalorificCtrl">
 
     <ion-pane>
-      <ion-header-bar class="bar-stable">
+          
+          <!-- HERE IS SIDE MENU -->
+  <ion-side-menus>
+      
+      <!-- Center Content -->
+      <!--*************************************************-->
+    <ion-side-menu-content>
+        
+        <!-- Header bar -->
+      <ion-header-bar class="bar-dark">
         <h1 class="title">Calorific</h1>
+        <!--new product button-->
+        <button class="button button-icon" ng-click="newProduct()">
+            <i class="icon ion-compose"></i>
+        </button>
       </ion-header-bar>
+        <!-- End header bar -->
+        
+        <!-- content locates here -->
       <ion-content>
+          
+        <!-- list of products -->
+        <ion-list>
+          <ion-item ng-repeat="task in tasks">
+            {{task.title}}
+          </ion-item>
+        </ion-list>
+          <!--end of list -->
+          
       </ion-content>
+        <!-- end content-->
+     </ion-side-menu-content>
+      <!--*************************************************-->
+      
+        
+        <!-- Left menu -->
+      <!--*************************************************-->
+    <ion-side-menu side="left">
+        
+        <!-- Header bar for left content -->
+        <ion-header-bar class="bar-dark">
+            <h1 class="title">Products</h1>
+        </ion-header-bar>
+        <!-- end header bar for left content -->
+        <!--***********************************************-->
+        
+    </ion-side-menu>
+          <!-- END SIDE MENU -->
+      
+      <!-- Modal window script here-->
+      <!--***************************************************-->
+      
+      <!--defining template as an Angular template-->
+      <script id="new_product.html" type="text/ng-template">
+          
+          <div class="modal">
+            
+              <!--header with a button to close the modal-->
+              <ion-headr-bar class="bar-secondary">
+                  <h1 class="title">New Product</h1>
+                  <button class="button button-clear button-positive" ng-click="closeNewProduct()">CANCEL</button>
+              </ion-headr-bar>
+              
+              <!-- Modal content -->
+              <ion-content>
+              
+                  /*
+                  * The product that is passed to createProduct
+                  * is the object corresponding to the entered form data
+                  * Since our text input has ng-model="product.title",
+                  * that text input will set the title property of the
+                  * product object.
+                  **/
+                  <form ng-submit="createProduct(product)">
+                    <div class="list">
+                        <lable class="item item-input">
+                            <input type="text" placeholder="What product do you want to enter?" ng-model="product.title">
+                        </lable>
+                    </div>
+                    <div class="padding">
+                        <button type="submit" class="button button-block button-positive">Enter Product</button>
+                        
+                    </div>
+                  </form>
+                  
+              </ion-content>
+              
+          </div>
+        
+      </script>
+      <!--***************************************************-->
+      <!--end Modal window script-->
+      
     </ion-pane>
   </body>
 </html>
