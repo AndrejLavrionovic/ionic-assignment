@@ -1,6 +1,5 @@
 angular.module('calorific', ['ionic'])
 
-
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -14,121 +13,151 @@ angular.module('calorific', ['ionic'])
   });
 })
 
-/**
- * The Projects factory handles saving and loading projects
- * from local storage, and also lets us save and load the
- * last active project index.
- */
-//******************************************************************
-.factory('Projects', function() {
-  return {
-    all: function() {
-      var projectString = window.localStorage['projects'];
-      if(projectString) {
-        return angular.fromJson(projectString);
-      }
-      return [];
-    },
-    save: function(projects) {
-      window.localStorage['projects'] = angular.toJson(projects);
-    },
-    newProject: function(projectTitle) {
-      // Add a new project
-      return {
-        title: projectTitle,
-        tasks: []
-      };
-    },
-    getLastActiveIndex: function() {
-      return parseInt(window.localStorage['lastActiveProject']) || 0;
-    },
-    setLastActiveIndex: function(index) {
-      window.localStorage['lastActiveProject'] = index;
-    }
-  }
-})
-
-.controller('CalorificCtrl', function($scope, $timeout, $ionicModal, Projects, $ionicSideMenuDelegate) {
-
-  // A utility function for creating a new project
-  // with the given projectTitle
-  var createProject = function(projectTitle) {
-    var newProject = Projects.newProject(projectTitle);
-    $scope.projects.push(newProject);
-    Projects.save($scope.projects);
-    $scope.selectProject(newProject, $scope.projects.length-1);
-  }
-
-
-  // Load or initialize projects
-  $scope.projects = Projects.all();
-
-  // Grab the last active, or the first project
-  $scope.activeProject = $scope.projects[Projects.getLastActiveIndex()];
-
-  // Called to create a new project
-  $scope.newProject = function() {
-    var projectTitle = prompt('Project name');
-    if(projectTitle) {
-      createProject(projectTitle);
-    }
-  };
-
-  // Called to select the given project
-  $scope.selectProject = function(project, index) {
-    $scope.activeProject = project;
-    Projects.setLastActiveIndex(index);
-    $ionicSideMenuDelegate.toggleLeft(false);
-  };
-
-  // Create our modal
-  $ionicModal.fromTemplateUrl('new-task.html', function(modal) {
-    $scope.taskModal = modal;
-  }, {
-    scope: $scope
-  });
-
-  $scope.createTask = function(task) {
-    if(!$scope.activeProject || !task) {
-      return;
-    }
-    $scope.activeProject.tasks.push({
-      title: task.title
-    });
-    $scope.taskModal.hide();
-
-    // Inefficient, but save all the projects
-    Projects.save($scope.projects);
-
-    task.title = "";
-  };
-
-  $scope.newTask = function() {
-    $scope.taskModal.show();
-  };
-
-  $scope.closeNewTask = function() {
-    $scope.taskModal.hide();
-  }
-
-  $scope.toggleProjects = function() {
-    $ionicSideMenuDelegate.toggleLeft();
-  };
-
-
-  // Try to create the first project, make sure to defer
-  // this by using $timeout so everything is initialized
-  // properly
-  $timeout(function() {
-    if($scope.projects.length == 0) {
-      while(true) {
-        var projectTitle = prompt('Your first project title:');
-        if(projectTitle) {
-          createProject(projectTitle);
-          break;
+/*
+.factory('Products', function() {
+    return{
+        
+        save: function(products) {
+            window.localStorage['products'] = angular.toJson(products);
+        },
+        getLastActiveIndex: function(){
+            return parseInt(window.localStorage['lastActiveProduct']) || 0;
+        },
+        
+        setLastActiveIndex: function(index) {
+            window.localStorage['lastActiveProduct'] = index;
         }
-      }
+        
     }
-  });
+});
+*/
 
+
+.controller('CalorificCtrl', function($scope) {
+    var calories, protein, carb, fat, fibre, alc;
+    calories=protein=carb=fat=fibre=alc = 0;
+    
+    $scope.elIndex = function(index){
+
+        if(index == 0){
+            calories = 214;
+            protein = 18;
+            carb = 0;
+            fat = 145;
+            fibre = 0;
+            alc = 0;
+        }
+
+        else if(index == 1){
+            calories = 42;
+            protein = 6;
+            carb = 0;
+            fat = 2;
+            fibre = 0;
+            alc = 0;
+        }
+        else if(index == 2){
+            calories = 252;
+            protein = 4;
+            carb = 37;
+            fat = 11;
+            fibre = 0;
+            alc = 0;
+        }
+        else if(index == 3){
+            calories = 219;
+            protein = 7;
+            carb = 0;
+            fat = 10;
+            fibre = 0;
+            alc = 0;
+        }
+        else if(i == 4){
+            calories = 326;
+            protein = 14;
+            carb = 62;
+            fat = 7;
+            fibre = 8;
+            alc = 0;
+        }
+        else if(index == 5){
+            calories = 265;
+            protein = 8;
+            carb = 54;
+            fat = 2;
+            fibre = 2;
+            alc = 0;
+        }
+        else if(index == 6){
+            calories = 182;
+            protein = 4;
+            carb = 38;
+            fat = 1;
+            fibre = 1;
+            alc = 0;
+        }
+        else if(index == 7){
+            calories = 151;
+            protein = 7;
+            carb = 27;
+            fat = 3;
+            fibre = 1;
+            alc = 0;
+        }
+        else if(index == 8){
+            calories = 3;
+            protein = 0;
+            carb = 1;
+            fat = 0;
+            fibre = 0;
+            alc = 0;
+        }
+        else if(index == 9){
+            calories = 92;
+            protein = 2;
+            carb = 17;
+            fat = 2;
+            fibre = 1;
+            alc = 0;
+        }
+        else if(index == 10){
+            calories = 9;
+            protein = 1;
+            carb = 1;
+            fat = 0;
+            fibre = 1;
+            alc = 0;
+        }
+    }
+    
+    $scope.elements = [
+        { title: 'Calories: '+calories},
+        { title: 'Protein: '+protein},
+        { title: 'Carbohidrat: '+carb},
+        { title: 'Fat: '+fat},
+        { title: 'Fibre: '+fibre},
+        {title: 'Alcohol: '+alc}
+    ];
+    
+    
+    $scope.products = [
+        {title: 'Cooked Minsed Beef', ind: 0},
+        {title: 'Beef Steak', ind: 1},
+        {title: 'Jam Donut', ind: 2},
+        {title: 'Cheese', ind: 3},
+        {title: 'Spaghetti', ind: 4},
+        {title: 'Pasta', ind: 5},
+        {title: 'Rice', ind: 6},
+        {title: 'Rolls', ind: 7},
+        {title: 'Radish Salad', ind: 8},
+        {title: 'Choclate Bars', ind: 9},
+        {title: 'Veg', ind: 10}
+    ];
+    
+    // Select product
+    $scope.selectProduct = function(product, index){
+        $scope.activeProduct = product;
+        $ionicSideMenuDelegate.toggleLeft(false);
+    }
+    
 });
