@@ -33,89 +33,78 @@
       <!-- Center Content -->
       <!--*************************************************-->
     <ion-side-menu-content>
-        
-        <!-- Header bar -->
-      <ion-header-bar class="bar-dark">
-        <h1 class="title">Calorific</h1>
-        <!--new product button-->
-        <button class="button button-icon" ng-click="newProduct()">
-            <i class="icon ion-compose"></i>
-        </button>
-      </ion-header-bar>
-        <!-- End header bar -->
-        
-        <!-- content locates here -->
-      <ion-content>
-          
-        <!-- list of products -->
-        <ion-list>
-          <ion-item ng-repeat="task in tasks">
-            {{task.title}}
-          </ion-item>
-        </ion-list>
-          <!--end of list -->
-          
-      </ion-content>
-        <!-- end content-->
-     </ion-side-menu-content>
+  <ion-header-bar class="bar-dark">
+    <button class="button button-icon" ng-click="toggleProjects()">
+      <i class="icon ion-navicon"></i>
+    </button>
+    <h1 class="title">{{activeProject.title}}</h1>
+    <!-- New Task button-->
+    <button class="button button-icon" ng-click="newTask()">
+      <i class="icon ion-compose"></i>
+    </button>
+  </ion-header-bar>
+  <ion-content scroll="false">
+    <ion-list>
+      <ion-item ng-repeat="task in activeProject.tasks">
+        {{task.title}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-side-menu-content>
       <!--*************************************************-->
       
         
         <!-- Left menu -->
       <!--*************************************************-->
     <ion-side-menu side="left">
-        
-        <!-- Header bar for left content -->
-        <ion-header-bar class="bar-dark">
-            <h1 class="title">Products</h1>
-        </ion-header-bar>
-        <!-- end header bar for left content -->
-        <!--***********************************************-->
-        
-    </ion-side-menu>
+    <ion-header-bar class="bar-dark">
+      <h1 class="title">Projects</h1>
+      <button class="button button-icon ion-plus" ng-click="newProject()">
+      </button>
+    </ion-header-bar>
+    <ion-content scroll="false">
+      <ion-list>
+        <ion-item ng-repeat="project in projects" ng-click="selectProject(project, $index)" ng-class="{active: activeProject == project}">
+          {{project.title}}
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-side-menu>
           <!-- END SIDE MENU -->
       
       <!-- Modal window script here-->
       <!--***************************************************-->
       
       <!--defining template as an Angular template-->
-      <script id="new_product.html" type="text/ng-template">
-          
-          <div class="modal">
-            
-              <!--header with a button to close the modal-->
-              <ion-headr-bar class="bar-secondary">
-                  <h1 class="title">New Product</h1>
-                  <button class="button button-clear button-positive" ng-click="closeNewProduct()">CANCEL</button>
-              </ion-headr-bar>
-              
-              <!-- Modal content -->
-              <ion-content>
-              
-                  /*
-                  * The product that is passed to createProduct
-                  * is the object corresponding to the entered form data
-                  * Since our text input has ng-model="product.title",
-                  * that text input will set the title property of the
-                  * product object.
-                  **/
-                  <form ng-submit="createProduct(product)">
-                    <div class="list">
-                        <lable class="item item-input">
-                            <input type="text" placeholder="What product do you want to enter?" ng-model="product.title">
-                        </lable>
-                    </div>
-                    <div class="padding">
-                        <button type="submit" class="button button-block button-positive">Enter Product</button>
-                        
-                    </div>
-                  </form>
-                  
-              </ion-content>
-              
-          </div>
-        
-      </script>
+      <script id="new-task.html" type="text/ng-template">
+
+  <div class="modal">
+
+    <!-- Modal header bar -->
+    <ion-header-bar class="bar-secondary">
+      <h1 class="title">New Task</h1>
+      <button class="button button-clear button-positive" ng-click="closeNewTask()">Cancel</button>
+    </ion-header-bar>
+
+    <!-- Modal content area -->
+    <ion-content>
+
+      <form ng-submit="createTask(task)">
+        <div class="list">
+          <label class="item item-input">
+            <input type="text" placeholder="What do you need to do?" ng-model="task.title">
+          </label>
+        </div>
+        <div class="padding">
+          <button type="submit" class="button button-block button-positive">Create Task</button>
+        </div>
+      </form>
+
+    </ion-content>
+
+  </div>
+
+</script>
       <!--***************************************************-->
       <!--end Modal window script-->
       
